@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+        <title>Cooking Simulator ( Game buat Ibu )</title>
+        <style>
+            .coolLogo {
+                font-size: 29.9999999pt;
+                font-family: Helvetica, Arial, sans-serif;
+                font-weight: 250;
+                margin: 2px;
+                padding: 2px;
+            }
+            body {
+                background-color: #E4E4E4;
+                font-family: "DengXian Light", "Bahnscrift Light", Arial, Helvetica, sans-serif;
+                font-size: 14pt;
+                margin: 0;
+                overflow: auto;
+                padding: 0;
+            }
+            .cook {
+                -webkit-transition: all 0.44s;
+                height: 60px;
+                width: 55px;
+                background-color: #FFCC00;
+                border-radius: 37.5% 37.5% 12.5% 12.5%;
+                position: absolute;
+                top: 360px;
+                left: 440px;
+            }
+            .tableborder {
+                width: 100%;
+                height: 75px;
+                background-color: rgb(65, 35, 15);
+                position: absolute;
+                top: 260px;
+            }
+            /* Inventory box */
+            .i {
+                height: 100%;
+                width: 430px;
+                background-color: #090809;
+                position: absolute;
+                left: 936px;
+            }
+            .inventory-tile {
+                border-style: dashed solid dashed solid;
+                border-color: #FFFFFF;
+                border-width: 2px;
+                width: 72px;
+                height: 72px;
+                padding: 3px;
+                margin-left: 5px;
+                margin-right: 5px;
+                margin-top: 36px;
+                margin-bottom: 36px;
+                position: absolute;
+                top: 41.5%;
+            }
+            .inventory-tile:hover {
+                border-style: solid solid solid solid;
+                cursor: pointer;
+            }
+            .cabe {
+                -ms-transform: rotate(0deg); /* IE 9 */
+                transform: rotate(0deg);
+                position: absolute;
+                top: 24px;
+                left: 1111px;
+                width: 84px;
+                height: 84px;
+            }
+            .customer {
+                width: 56px;
+                height: 56px;
+                background-color: #78B7EF;
+                position: absolute;
+                left: 440px;
+                top: 37.125%;
+            }
+            .Howmanychilliyuhav {
+                font-size: 32pt;
+                position: absolute;
+                top: 17px;
+                left: 1166px;
+                text-align: center;
+                color: #FEFEFE;
+            }
+            .whatthecustomerwants {
+                background-color: #FFFFFF;
+                border-radius: 12.5% 12.5% 0 0;
+                width: 125px;
+                height: 65px;
+                text-align: center;
+                font-family: "Courier New", Arial, Helvetica, sans-serif;
+                color: #111111;
+                position: absolute;
+                left: 407.5px;
+                top: 25.25%;
+                transition: 0.9s;
+                transition-delay: 372ms;
+            }
+            .whatthecustomerwants:hover {
+                background-color: #E4E4E4;
+            }
+            .whatthecustomerwants span {
+                position: absolute;
+                top: 2.5px;
+                left: 10px;
+                width: 105px;
+                height: 60px;
+                display: flex !important;
+                justify-content: center;
+                align-items: center;
+                background: #FFFFFF;
+                font-size: 31px !important;
+                transition: 0.9s; /* s = seconds */
+                transition-delay: 372ms; /* 1000ms = 1s, so 372ms = 0.372s */
+            }
+            .whatthecustomerwants:hover span:nth-child(1) {
+                top: 15%;
+                left: -112.5%;
+                background-color: #7A6AFF;
+                border-radius: 12.5% 12.5% 0 12.5%;
+            }
+            .whatthecustomerwants:hover span:nth-child(2) {
+                left: 7.5px;
+                top: -32.5%;
+                background-color: #6AFF7A;
+                border-radius: 12.5% 12.5% 0 0%;
+            }
+            .whatthecustomerwants:hover span:nth-child(3) {
+                top: 15%;
+                left: 121%;
+                background-color: #FF6A7A;
+                border-radius: 12.5% 12.5% 12.5% 0;
+            }
+            .food_toServe {
+                background-color: rgb(142, 32, 24);
+                width: 67px;
+                height: 67px;
+                position: absolute;
+                left: 31.8789787876867987876967876967877686787%;
+                top: 5%;
+            }
+            .soysauce {
+                width: 23px;
+                height: 67px;
+                position: absolute;
+                background-color: #7F5AA4;
+                position: absolute;
+                top: 5px;
+                left: 26.5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="position: absolute; top: 1; left: 1; ">
+            <h1 class="coolLogo">Da-Poor</h1>
+        </div>
+        <div id="cook" class="cook"></div>
+        <div id="levelOne">
+            <div class="whatthecustomerwants">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="customer"></div>
+            <h1 class="tableborder">
+                <div class="food_toServe"></div>
+            </h1>
+        </div>
+        <div class="i">
+            <div class="inventory-tile" id="inventory3" style="left: 64.5%;"></div>
+            <div class="inventory-tile" id="inventory2" style="left: 39.5%;"></div>
+            <div class="inventory-tile" id="inventory1" style="left: 14.5%;">
+                <img class="soysauce" id="soysauce">
+            </div>
+        </div>
+        <div>
+            <h1 id="chillis" class="Howmanychilliyuhav">x 0</h1>
+            <img src="cabe.png" class="cabe">
+        </div>
+        <script>
+            // Variables
+            var cookY = 6, cookX = 8, itemsInInventory = [1], foodType = "fish", customerWants = "fish_soy_cook", chilli_num = 0, current_level = 1;
+            // More variables
+            var soySaucePlacement = 1;
+            // Move things =)
+            onkeydown = moveObjects;
+
+            // Brain of the player.
+            function checkPlayerPos() {
+                if (cookX === 25) {
+                    cookX = 24;
+                }
+                if (cookX === -1) {
+                    cookX = 0;
+                }
+                if (cookY === -1) { 
+                    cookY = 0;
+                }
+                if (cookY === 10) {
+                    cookY = 9; 
+                }
+                if (cookY === 5) {
+                    cookY = 6;
+                }
+                if (cookX === 17) {
+                    cookX = 16;
+                }
+            }
+            function usePlayerInventory(inventorynum) {
+                let index = 0;
+                while (index <= itemsInInventory.length) {
+                    if (itemsInInventory[index] === inventorynum) {
+                        if (inventorynum === itemPlacementInInventory) {
+                            if (customerWants === "fish_soy_cook" && current_level === 1) {
+                                if (itemType === "soy sauce" && foodType === "fish") {
+                                    chilli_num = chilli_num + (current_level * 5);
+                                    alert("working");
+                                }
+                            }
+                        }
+                    }
+                }
+                index++;
+            }
+            // The heart of the game.
+            function moveObjects(e) {
+                checkPlayerPos();
+                if (e.keyCode == 37) {
+                    cookX--;
+                    checkPlayerPos();
+                }
+                if (e.keyCode == 39) {
+                    cookX++;
+                    checkPlayerPos();
+                }
+                if (e.keyCode == 38) {
+                    cookY--;
+                    checkPlayerPos();
+                }
+                if (e.keyCode == 40) {
+                    cookY++;
+                    checkPlayerPos();
+                }
+                if (e.keyCode == 49) {
+                    usePlayerInventory(1);
+                }
+                document.getElementById("chillis").innerHTML = "x " + chilli_num; 
+                document.getElementById("cook").style.top=cookY*60 + "px";
+                document.getElementById("cook").style.left=cookX*55 + "px";
+            }
+        </script>
+    </body>
+</html>
