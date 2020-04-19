@@ -184,7 +184,7 @@
         </div>
         <script>
             // Variables
-            var cookY = 6, cookX = 8, itemsInInventory = [1], foodType = "fish", customerWants = "fish_soy_cook", chilli_num = 0, current_level = 1;
+            var cookY = 6, cookX = 8, itemsInInventory = [1], foodType = "fish", customerWants = "soy", customerWantsB = "cook", customerNeeds = "fish", howToCook = "cook", chilli_num = 0, current_level = 1;
             // More variables
             var soySaucePlacement = 1;
             // Move things =)
@@ -211,21 +211,21 @@
                     cookX = 16;
                 }
             }
-            function usePlayerInventory(inventorynum) {
+            function usePlayerInventory(inventorynum, wants) {
                 let index = 0;
                 while (index <= itemsInInventory.length) {
-                    if (itemsInInventory[index] === inventorynum) {
-                        if (inventorynum === itemPlacementInInventory) {
-                            if (customerWants === "fish_soy_cook" && current_level === 1) {
-                                if (itemType === "soy sauce" && foodType === "fish") {
-                                    chilli_num = chilli_num + (current_level * 5);
-                                    alert("working");
+                    if (itemsInInventory[index] == inventorynum) {
+                        if (wants === customerWants) {
+                            if (inventorynum === soySaucePlacement) {
+                                if (howToCook == customerWantsB && foodType === customerNeeds) {
+                                        chilli_num = chilli_num + (current_level * 5);
+                                        alert("+1");
                                 }
                             }
                         }
                     }
+                    index++;
                 }
-                index++;
             }
             // The heart of the game.
             function moveObjects(e) {
